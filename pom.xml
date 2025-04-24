@@ -31,6 +31,7 @@
 
     <modules>
         <module>apps</module>
+        <module>domain</module>
     </modules>
 
     <properties>
