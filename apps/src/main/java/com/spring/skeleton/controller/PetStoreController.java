@@ -2,6 +2,7 @@ package com.spring.skeleton.controller;
 
 import com.spring.skeleton.domain.petstore.PetStoreService;
 import com.spring.skeleton.dto.PetDto;
+import com.spring.skeleton.mapper.PetDTOMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,7 +11,9 @@ import java.util.List;
 
 @RestController
 public class PetStoreController {
+    private static final PetDTOMapper PET_DTO_MAPPER = PetDTOMapper.INSTANCE;
     private final PetStoreService petStoreService;
+
 
     public PetStoreController(final PetStoreService petStoreService) {
         this.petStoreService = petStoreService;
@@ -23,11 +26,6 @@ public class PetStoreController {
     )
     public ResponseEntity<List<PetDto>> getPets() {
         final var pets = petStoreService.getPets();
-
-        // need to use mapStruct after
-        final var petsDTO = pets.stream().map(
-                pet -> new PetDto(pet.name(), pet.type(), pet.age())).toList();
-
-        return ResponseEntity.ok().body(petsDTO);
+        return ResponseEntity.ok().body(PET_DTO_MAPPER.toPetDtoList(pets));
     }
 }
