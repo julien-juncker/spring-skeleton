@@ -11,10 +11,6 @@
 
     <artifactId>apps</artifactId>
 
-    <properties>
-        <mapstruct.version>1.6.3</mapstruct.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -35,6 +31,12 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
             <version>${mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.intuit.karate</groupId>
+            <artifactId>karate-junit5</artifactId>
+            <version>${karate-junit5.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
