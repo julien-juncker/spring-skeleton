@@ -33,11 +33,65 @@
             <version>${mapstruct.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${jackson-databind-nullable.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>${jakarta.validation-api.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.intuit.karate</groupId>
             <artifactId>karate-junit5</artifactId>
             <version>${karate-junit5.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${openapi-generator.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <templateDirectory>src/main/resources/templates
+                            </templateDirectory>
+                            <inputSpec>${project.parent.basedir}/docapi/static/openapi.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <skipOverwrite>true</skipOverwrite>
+                            <apiPackage>com.spring.skeleton.generated.api</apiPackage>
+                            <modelPackage>com.spring.skeleton.generated.models</modelPackage>
+                            <invokerPackage>com.spring.skeleton.generated</invokerPackage>
+                            <!-- See https://github.com/OpenAPITools/openapi-generator/issues/12453 -->
+                            <typeMappings>workaround-generator=org.springframework.core.io.Resource</typeMappings>
+                            <configOptions>
+                                <generateApiTests>false</generateApiTests>
+                                <generateModelTests>false</generateModelTests>
+                                <interfaceOnly>true</interfaceOnly>
+                                <useOptional>false</useOptional>
+                                <useResponseEntity>true</useResponseEntity>
+                                <useTags>true</useTags>
+                                <useSpringBoot3>true</useSpringBoot3>
+                                <generatedConstructorWithRequiredArgs>false</generatedConstructorWithRequiredArgs>
+                                <useBeanValidation>true</useBeanValidation>
+                                <useSpringBoot3>true</useSpringBoot3>
+                                <documentationProvider>source</documentationProvider>
+                                <generateSupportingFiles>false</generateSupportingFiles>
+                                <implicitHeadersRegex>x-correlation-id</implicitHeadersRegex>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

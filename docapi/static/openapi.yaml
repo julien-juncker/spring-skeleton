@@ -1,0 +1,58 @@
+openapi: 3.1.0
+info:
+  title: Spring skeleton
+  description: Swagger Spring skeleton
+  version: 1.0.0
+servers:
+  - url: 'https'
+paths:
+  /api/v1/pets:
+    get:
+      summary: Get pets
+      description: Get pets from petstore
+      operationId: getPets
+      tags:
+        - Petstore
+      responses:
+        '200':
+          description: A list of pets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PetDTO"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+components:
+  schemas:
+    PetDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of pet
+          example: Helios
+        type:
+          type: string
+          description: Type of pet
+          example: Cat
+        age:
+          type: number
+          description: Age of pet
+          example: 3
+    ErrorDTO:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
