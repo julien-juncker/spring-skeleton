@@ -1,0 +1,9 @@
+[submodule "docapi/themes/terminal"]
+	path = docapi/themes/terminal
+	url = https://github.com/panr/hugo-theme-terminal.git
+[submodule "docapi/docapi/themes/hugo-theme-relearn"]
+	path = docapi/docapi/themes/hugo-theme-relearn
+	url = https://github.com/McShelby/hugo-theme-relearn.git
+[submodule "docapi/themes/hugo-theme-relearn"]
+	path = docapi/themes/hugo-theme-relearn
+	url = https://github.com/McShelby/hugo-theme-relearn.git

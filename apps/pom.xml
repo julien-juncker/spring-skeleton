@@ -64,7 +64,7 @@
                         <configuration>
                             <templateDirectory>src/main/resources/templates
                             </templateDirectory>
-                            <inputSpec>${project.parent.basedir}/docapi/static/openapi.yaml</inputSpec>
+                            <inputSpec>${project.parent.basedir}/docapi/content/openapi.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <skipOverwrite>true</skipOverwrite>
                             <apiPackage>com.spring.skeleton.generated.api</apiPackage>
