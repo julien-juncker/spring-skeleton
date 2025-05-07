@@ -1,4 +1,4 @@
-package com.spring.skeleton.mapper;
+package com.spring.skeleton.controller.mapper;
 
 import com.spring.skeleton.domain.petstore.object.Pet;
 import com.spring.skeleton.generated.models.PetDTO;

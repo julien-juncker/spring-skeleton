@@ -1,16 +1,20 @@
 package com.spring.skeleton.domain.petstore;
 
 import com.spring.skeleton.domain.petstore.object.Pet;
+import com.spring.skeleton.domain.petstore.port.PetstorePort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class PetStoreService {
+    private final PetstorePort petstorePort;
+
+    public PetStoreService(final PetstorePort petstorePort) {
+        this.petstorePort = petstorePort;
+    }
+
     public List<Pet> getPets() {
-        return List.of(
-                new Pet("Helios", "Cat", 3),
-                new Pet("Fluffy", "Dog", 4)
-        );
+        return petstorePort.getAllPets();
     }
 }

@@ -1,0 +1,1 @@
+TRUNCATE pet CASCADE;

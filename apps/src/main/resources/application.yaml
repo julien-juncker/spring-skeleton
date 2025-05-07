@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: apps
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:15435/postgres}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:changeme}
+    hikari:
+      minimum-idle: 1
+      connection-timeout: 1000
+      data-source-properties:
+        stringtype: unspecified
+  jpa:
+    hibernate:
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+      ddl-auto: validate
+  flyway:
+    locations: db_migration
+    out-of-order: ${FLYWAY_OUT_OF_ORDER:false}
