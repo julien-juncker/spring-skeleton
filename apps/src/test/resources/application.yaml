@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: apps
+  flyway:
+    locations: db_migration

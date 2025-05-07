@@ -3,7 +3,7 @@ package com.spring.skeleton.controller;
 import com.spring.skeleton.domain.petstore.PetStoreService;
 import com.spring.skeleton.generated.api.PetstoreApi;
 import com.spring.skeleton.generated.models.PetDTO;
-import com.spring.skeleton.mapper.PetDTOMapper;
+import com.spring.skeleton.controller.mapper.PetDTOMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
