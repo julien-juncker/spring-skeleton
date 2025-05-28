@@ -41,7 +41,7 @@ You can fork this project and follow the steps bellow.
 - Rename petstore DB docker container name
   - `docker/docker-compose.yaml` only l.5
 - Remove sql init script from flyway and test
-  - `apps/src/main/resources/db_migration/V0.2__init_petstore.sql` all file
+  - `apps/src/main/resources/db_migration/V0.2__init_survey_enterpriseA.sql` all file
   - `apps/src/test/resources/sql/init_petstore.sql` all file
   - `apps/src/test/java/com/spring/skeleton/apps/configuration/ApplicationStub.java` only l.12
   - `apps/src/test/resources/sql/truncate.sql` only l.1
