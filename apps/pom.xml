@@ -26,32 +26,36 @@
         <dependency>
             <groupId>com.spring.skeleton</groupId>
             <artifactId>domain</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
+        </dependency>
+
+        <!-- adapter dependencies (to wire adapter with port) -->
+        <dependency>
+            <groupId>com.spring.skeleton</groupId>
+            <artifactId>enterpriseA-adapter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.spring.skeleton</groupId>
+            <artifactId>enterpriseB-adapter</artifactId>
         </dependency>
 
         <!-- Mapper management -->
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
-            <version>${mapstruct.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
-            <version>${mapstruct.version}</version>
         </dependency>
 
         <!-- OpenApi controller generation -->
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>${jackson-databind-nullable.version}</version>
         </dependency>
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
-            <version>${jakarta.validation-api.version}</version>
         </dependency>
 
         <!-- Database management -->
@@ -74,8 +78,6 @@
         <dependency>
             <groupId>com.intuit.karate</groupId>
             <artifactId>karate-junit5</artifactId>
-            <version>${karate-junit5.version}</version>
-            <scope>test</scope>
         </dependency>
 
         <!-- Test containers dependencies -->
@@ -92,6 +94,25 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>postgresql</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>mongodb</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.spring.skeleton</groupId>
+            <artifactId>enterpriseA-adapter</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.spring.skeleton</groupId>
+            <artifactId>enterpriseB-adapter</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <type>test-jar</type>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -132,7 +153,12 @@
                                 <documentationProvider>source</documentationProvider>
                                 <generateSupportingFiles>false</generateSupportingFiles>
                                 <implicitHeadersRegex>x-correlation-id</implicitHeadersRegex>
-                            </configOptions>
+                                <useOneOfInterfaces>true</useOneOfInterfaces>
+                                <addOneOfInterfaceImports>true</addOneOfInterfaceImports>
+                                <additionalModelTypeAnnotations>
+                                    @com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+                                </additionalModelTypeAnnotations>
+                        </configOptions>
                         </configuration>
                     </execution>
                 </executions>

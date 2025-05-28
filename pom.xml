@@ -32,6 +32,8 @@
     <modules>
         <module>apps</module>
         <module>domain</module>
+        <module>enterpriseA-adapter</module>
+        <module>enterpriseB-adapter</module>
     </modules>
 
     <properties>
@@ -41,6 +43,7 @@
         <openapi-generator.version>7.12.0</openapi-generator.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
         <jakarta.validation-api.version>3.1.1</jakarta.validation-api.version>
+        <testcontainers.version>1.21.0</testcontainers.version>
     </properties>
     <dependencies>
         <dependency>
@@ -54,6 +57,68 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.spring.skeleton</groupId>
+                <artifactId>apps</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.spring.skeleton</groupId>
+                <artifactId>enterpriseA-adapter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.spring.skeleton</groupId>
+                <artifactId>enterpriseB-adapter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.openapitools</groupId>
+                <artifactId>jackson-databind-nullable</artifactId>
+                <version>${jackson-databind-nullable.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>${jakarta.validation-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.intuit.karate</groupId>
+                <artifactId>karate-junit5</artifactId>
+                <version>${karate-junit5.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>mongodb</artifactId>
+                <version>${testcontainers.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>

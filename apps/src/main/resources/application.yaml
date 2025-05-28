@@ -18,3 +18,11 @@ spring:
   flyway:
     locations: db_migration
     out-of-order: ${FLYWAY_OUT_OF_ORDER:false}
+enterpriseA:
+  datasource:
+    url: jdbc:postgresql://localhost:15435/postgres-enterpriseA
+    username: postgres
+    password: postgres
+enterpriseB:
+  datasource:
+    url: tbd

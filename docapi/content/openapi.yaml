@@ -6,45 +6,117 @@ info:
 servers:
   - url: 'https'
 paths:
-  /api/v1/pets:
+  /api/v1/survey:
     get:
-      summary: Get pets
-      description: Get pets from petstore
-      operationId: getPets
+      summary: Get all surveys
+      description: Get all surveys
+      operationId: getSurvey
       tags:
-        - Petstore
+        - Survey
       responses:
         '200':
-          description: A list of pets
+          description: A created survey
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/PetDTO"
+                  $ref: "#/components/schemas/SurveyDTO"
         default:
-          description: unexpected error
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorDTO"
+    post:
+      summary: Save survey
+      description: Save survey
+      operationId: postSurvey
+      tags:
+        - Survey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SurveyDTO"
+      responses:
+        '200':
+          description: A created survey
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SurveyDTO"
+        default:
+          description: Unexpected error
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorDTO"
 components:
   schemas:
-    PetDTO:
+    SurveyDTO:
       type: object
       properties:
+        enterpriseName:
+          type: string
+          description: Name of the enterprise that own survey
+          example: Enterprise A
         name:
           type: string
-          description: Name of pet
-          example: Helios
+          description: Name of the survey
+          example: Survey A
+        description:
+          type: string
+          description: Description of the survey
+          example: Survey A description
+        status:
+          type: string
+          description: Status of the survey. Accepted values are ACCEPTED / DECLINED
+          example: ACCEPTED
+        question:
+          type: string
+          description: Question of the survey
+          example: Did you enjoy your trip ?
+        options:
+          oneOf:
+            - $ref: "#/components/schemas/OpinionScaleDTO"
+            - $ref: "#/components/schemas/GraduationDTO"
+          discriminator:
+            propertyName: type
+            mapping:
+              opinionScale: "#/components/schemas/OpinionScaleDTO"
+              graduation: "#/components/schemas/GraduationDTO"
+        votes:
+          type: integer
+          description: Votes of survey
+    OpinionScaleDTO:
+      type: object
+      properties:
         type:
           type: string
-          description: Type of pet
-          example: Cat
-        age:
-          type: number
-          description: Age of pet
-          example: 3
+        opinionScale:
+          $ref: "#/components/schemas/OpinionScaleEnumDTO"
+    OpinionScaleEnumDTO:
+      type: array
+      description: Options for the question in opinion scale format
+      example: [ ABSOLUTELY_YES, YES, MAYBE, NO, ABSOLUTELY_NO ]
+      items:
+        type: string
+        enum: [ ABSOLUTELY_YES, "YES", MAYBE, "NO", ABSOLUTELY_NO ]
+        example: "YES"
+    GraduationDTO:
+      type: object
+      properties:
+        type:
+          type: string
+        graduation:
+          type: array
+          description: Options for the question in array of integer format
+          items:
+            type: integer
+            minimum: 1
+            maximum: 5
+            example: 5
     ErrorDTO:
       type: object
       required:
