@@ -33,7 +33,7 @@ You can fork this project and follow the steps below.
 ### Remove or replace the unused Petstore feature
 
 - Remove Petstore references from the OpenAPI file:
-  - `docapi/static/openapi.yaml`
+  - `docapi/content/openapi.yaml`
 - Remove Petstore controller:
   - `apps/src/main/java/com/spring/skeleton/controller/PetStoreController.java` (entire file)
 - Remove Petstore models:
