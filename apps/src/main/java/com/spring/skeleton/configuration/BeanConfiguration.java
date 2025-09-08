@@ -1,17 +1,16 @@
 package com.spring.skeleton.configuration;
 
-import com.spring.skeleton.domain.survey.SurveyService;
-import com.spring.skeleton.domain.survey.port.SurveyPort;
+import com.spring.skeleton.domain.petstore.PetStoreService;
+import com.spring.skeleton.domain.petstore.port.PetPort;
+import com.spring.skeleton.domain.petstore.port.PetStorePort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.List;
 
 @Configuration
 public class BeanConfiguration {
 
     @Bean
-    public SurveyService surveyService(final List<SurveyPort> surveyPort) {
-        return new SurveyService(surveyPort);
+    public PetStoreService petStoreService(final PetStorePort petStorePort, final PetPort petPort) {
+        return new PetStoreService(petStorePort, petPort);
     }
 }

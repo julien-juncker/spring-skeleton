@@ -31,11 +31,11 @@
         <!-- adapter dependencies (to wire adapter with port) -->
         <dependency>
             <groupId>com.spring.skeleton</groupId>
-            <artifactId>enterpriseA-adapter</artifactId>
+            <artifactId>pet-infrastructure</artifactId>
         </dependency>
         <dependency>
             <groupId>com.spring.skeleton</groupId>
-            <artifactId>enterpriseB-adapter</artifactId>
+            <artifactId>petstore-infrastructure</artifactId>
         </dependency>
 
         <!-- Mapper management -->
@@ -66,12 +66,11 @@
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-database-postgresql</artifactId>
-            <scope>runtime</scope>
+            <artifactId>flyway-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
+            <artifactId>flyway-database-postgresql</artifactId>
         </dependency>
 
         <!-- Karate for integration test -->
@@ -101,16 +100,18 @@
             <artifactId>mongodb</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- For test containers dependencies - init container and service connection -->
         <dependency>
             <groupId>com.spring.skeleton</groupId>
-            <artifactId>enterpriseA-adapter</artifactId>
+            <artifactId>pet-infrastructure</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.spring.skeleton</groupId>
-            <artifactId>enterpriseB-adapter</artifactId>
+            <artifactId>petstore-infrastructure</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
@@ -129,8 +130,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <templateDirectory>src/main/resources/templates
-                            </templateDirectory>
+                            <templateDirectory>src/main/resources/templates</templateDirectory>
                             <inputSpec>${project.parent.basedir}/docapi/content/openapi.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <skipOverwrite>true</skipOverwrite>
@@ -153,8 +153,6 @@
                                 <documentationProvider>source</documentationProvider>
                                 <generateSupportingFiles>false</generateSupportingFiles>
                                 <implicitHeadersRegex>x-correlation-id</implicitHeadersRegex>
-                                <useOneOfInterfaces>true</useOneOfInterfaces>
-                                <addOneOfInterfaceImports>true</addOneOfInterfaceImports>
                                 <additionalModelTypeAnnotations>
                                     @com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
                                 </additionalModelTypeAnnotations>

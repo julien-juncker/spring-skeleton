@@ -2,4 +2,12 @@ spring:
   application:
     name: apps
   flyway:
-    locations: db_migration
+    enabled: false
+  #    locations: db_migration
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  main:
+    allow-bean-definition-overriding: true

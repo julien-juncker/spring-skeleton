@@ -4,48 +4,43 @@ info:
   description: Swagger Spring skeleton
   version: 1.0.0
 servers:
-  - url: 'https'
+  - url: 'https://julien-juncker.github.io/spring-skeleton/openapi/index.html'
 paths:
-  /api/v1/survey:
-    get:
-      summary: Get all surveys
-      description: Get all surveys
-      operationId: getSurvey
-      tags:
-        - Survey
-      responses:
-        '200':
-          description: A created survey
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/SurveyDTO"
-        default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorDTO"
+  /api/v1/petstore/pet:
     post:
-      summary: Save survey
-      description: Save survey
-      operationId: postSurvey
+      summary: Add pet to store
+      description: Add pet to store
+      operationId: postPetToStore
       tags:
-        - Survey
+        - petStore
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/SurveyDTO"
+              type: object
+              required:
+                - pet
+                - petStore
+              properties:
+                pet:
+                  $ref: "#/components/schemas/OneOfPetDTO"
+                petStore:
+                  $ref: "#/components/schemas/PetStoreDTO"
       responses:
         '200':
-          description: A created survey
+          description: A map of registered pet and store
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SurveyDTO"
+                type: object
+                required:
+                  - pet
+                  - petStore
+                properties:
+                  pet:
+                    $ref: "#/components/schemas/OneOfPetDTO"
+                  petStore:
+                    $ref: "#/components/schemas/PetStoreDTO"
         default:
           description: Unexpected error
           content:
@@ -54,69 +49,155 @@ paths:
                 $ref: "#/components/schemas/ErrorDTO"
 components:
   schemas:
-    SurveyDTO:
+    PetDTO:
       type: object
+      required:
+        - name
+        - owner
+        - petType
       properties:
-        enterpriseName:
+        tag:
           type: string
-          description: Name of the enterprise that own survey
-          example: Enterprise A
+          format: uuid
+          description: tag id of the pet
+          example: 7261bebb-5616-443a-8406-342e61c201ab
         name:
           type: string
-          description: Name of the survey
-          example: Survey A
-        description:
+          minLength: 3
+          maxLength: 50
+          description: name of the pet
+          example: helios
+        owner:
+          $ref: "#/components/schemas/OwnerDTO"
+        petType:
           type: string
-          description: Description of the survey
-          example: Survey A description
-        status:
-          type: string
-          description: Status of the survey. Accepted values are ACCEPTED / DECLINED
-          example: ACCEPTED
-        question:
-          type: string
-          description: Question of the survey
-          example: Did you enjoy your trip ?
-        options:
-          oneOf:
-            - $ref: "#/components/schemas/OpinionScaleDTO"
-            - $ref: "#/components/schemas/GraduationDTO"
-          discriminator:
-            propertyName: type
-            mapping:
-              opinionScale: "#/components/schemas/OpinionScaleDTO"
-              graduation: "#/components/schemas/GraduationDTO"
-        votes:
-          type: integer
-          description: Votes of survey
-    OpinionScaleDTO:
+          description: type of pet (DOG, CAT ...)
+          example: DOG
+
+    OwnerDTO:
       type: object
+      required:
+        - firstName
+        - lastName
+        - address
       properties:
-        type:
+        id:
           type: string
-        opinionScale:
-          $ref: "#/components/schemas/OpinionScaleEnumDTO"
-    OpinionScaleEnumDTO:
-      type: array
-      description: Options for the question in opinion scale format
-      example: [ ABSOLUTELY_YES, YES, MAYBE, NO, ABSOLUTELY_NO ]
-      items:
-        type: string
-        enum: [ ABSOLUTELY_YES, "YES", MAYBE, "NO", ABSOLUTELY_NO ]
-        example: "YES"
-    GraduationDTO:
+          format: uuid
+          description: tag id of the pet
+          example: 7261bebb-5616-443a-8406-342e61c201ab
+        firstName:
+          type: string
+          minLength: 3
+          maxLength: 50
+          description: pet owner first name
+          example: John
+        lastName:
+          type: string
+          minLength: 3
+          maxLength: 50
+          description: pet owner last name
+          example: Doe
+        address:
+          $ref: "#/components/schemas/AddressDTO"
+
+    AddressDTO:
       type: object
+      required:
+        - number
+        - street
+        - zip
       properties:
-        type:
+        number:
+          type: number
+          minimum: 1
+          maximum: 1000
+          description: house number
+          example: 5
+        street:
           type: string
-        graduation:
-          type: array
-          description: Options for the question in array of integer format
-          items:
-            type: integer
-            minimum: 1
-            maximum: 5
-            example: 5
+          minLength: 3
+          maxLength: 256
+          description: house street
+          example: Leicester square
+        city:
+          type: string
+          minLength: 3
+          maxLength: 50
+          description: house city
+          example: London
+        state:
+          type: string
+          minLength: 3
+          maxLength: 50
+          description: house state
+          example: Nord
+        zip:
+          type: string
+          minLength: 3
+          maxLength: 50
+          description: house city zip code
+          example: EC1A 1AE
+
+    DogDTO:
+      allOf:
+        - $ref: "#/components/schemas/PetDTO"
+        - type: object
+          required:
+            - breed
+          properties:
+            breed:
+              type: string
+              enum:
+                - BULLDOG
+                - LABRADOR
+                - GOLDEN_RETRIEVER
+                - BEAGLE
+              description: Breed for dog
+              example: BULLDOG
+    CatDTO:
+      allOf:
+        - $ref: "#/components/schemas/PetDTO"
+        - type: object
+          required:
+            - breed
+          properties:
+            breed:
+              type: string
+              enum:
+                - BENGAL
+                - PERSIAN
+                - SIAMESE
+                - BRITISH_SHORTHAIR
+              description: Breed for cat
+              example: BENGAL
+
+    OneOfPetDTO:
+      oneOf:
+        - $ref: "#/components/schemas/DogDTO"
+        - $ref: "#/components/schemas/CatDTO"
+      discriminator:
+        propertyName: petType
+        mapping:
+          'CAT': CatDTO
+          'DOG': DogDTO
+
+    PetStoreDTO:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: id of the store
+          example: 7261bebb-5616-443a-8406-342e61c201ab
+        name:
+          type: string
+          minLength: 3
+          maxLength: 128
+          description: name of the store
+          example: Pet store london
     ErrorDTO:
       type: object
       required:
