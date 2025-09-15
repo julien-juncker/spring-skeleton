@@ -24,24 +24,14 @@ You can fork this project and follow the steps bellow.
     - apps and domain modules
     - It's better to use refactoring technique from your IDE
 - Rename "groupId" and "artifactId" on global pom
-- Rename "groupId" and "artifactId" on parent block for apps pom
-- Rename "apiPackage" - "modelPackage" - "invokerPackage" openApi configuration on apps pom
-    - Path on pom.xml : `project -> build -> plugins -> plugin with groupId org.openapitools -> executions -> execution -> configuration`
+- Rename "groupId" and "artifactId" on parent block for all children pom (apps, domain ...).
 
 ### Remove or replace useless Petstore feature
 - Remove from openApi file
-    - `docapi/static/openapi.yaml` only petstore references
-- Remove from controller package in apps module
-    - `apps/src/main/java/com/spring/skeleton/controller/PetStoreController.java` all file
-- Remove from model package in apps module
-  - `apps/src/main/java/com/spring/skeleton/model/**` all files
-- Remove from domain module
-    - `domain/src/main/java/com/spring/skeleton/domain/petstore/PetStoreService.java` all file
-    - `domain/src/main/java/com/spring/skeleton/domain/petstore/object/Pet.java` all file
-- Rename petstore DB docker container name
-  - `docker/docker-compose.yaml` only l.5
-- Remove sql init script from flyway and test
-  - `apps/src/main/resources/db_migration/V0.2__init_survey_enterpriseA.sql` all file
-  - `apps/src/test/resources/sql/init_petstore.sql` all file
-  - `apps/src/test/java/com/spring/skeleton/apps/configuration/ApplicationStub.java` only l.12
-  - `apps/src/test/resources/sql/truncate.sql` only l.1
+    - `docapi/content/openapi.yaml` only petstore references
+- Remove all Petstore files from :
+  - apps module
+  - domain module
+- Remove Petstore infrastructures module (pet-infrastructure, petstore infrastructure).
+- Remove pet and petstore DB docker container name
+  - `docker/docker-compose.yaml`

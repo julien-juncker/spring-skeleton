@@ -134,9 +134,9 @@
                             <inputSpec>${project.parent.basedir}/docapi/content/openapi.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <skipOverwrite>true</skipOverwrite>
-                            <apiPackage>com.spring.skeleton.generated.api</apiPackage>
-                            <modelPackage>com.spring.skeleton.generated.models</modelPackage>
-                            <invokerPackage>com.spring.skeleton.generated</invokerPackage>
+                            <apiPackage>${project.groupId}.generated.api</apiPackage>
+                            <modelPackage>${project.groupId}.generated.models</modelPackage>
+                            <invokerPackage>${project.groupId}.generated</invokerPackage>
                             <!-- See https://github.com/OpenAPITools/openapi-generator/issues/12453 -->
                             <typeMappings>workaround-generator=org.springframework.core.io.Resource</typeMappings>
                             <configOptions>
