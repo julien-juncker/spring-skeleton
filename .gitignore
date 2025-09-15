@@ -32,7 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 
-### HUGO doc ###
+### DocAPI ###
 docapi/public
-docapi/themes/*
 docapi/.hugo_build.lock
