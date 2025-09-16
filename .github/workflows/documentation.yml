@@ -52,7 +52,9 @@ jobs:
       - name: copy openapi file
         run: |
           cp ./docapi/public/openapi.yaml ./docapi/public/openapi/
+          cp ./docapi/public/openapi.yaml /
           ls ./docapi/public/openapi
+          ls /
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
