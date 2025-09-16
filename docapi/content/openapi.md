@@ -5,4 +5,4 @@ author = "julien-juncker"
 weight = 1
 +++
 
-{{< openapi src="/openapi.yaml" >}}
+{{< openapi src="./openapi.yaml" >}}
