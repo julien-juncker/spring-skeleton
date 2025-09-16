@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - petstore-api
   workflow_dispatch:
 
 permissions:
@@ -49,7 +48,11 @@ jobs:
             --minify \
             --source ./docapi \
             --baseURL "${{ steps.pages.outputs.base_url }}/"  
-          cp ./docapi/public/openapi.yaml ./docapi/public/openapi
+
+      - name: copy openapi file
+        run: |
+          cp ./docapi/public/openapi.yaml ./docapi/public/openapi/
+          ls ./docapi/public/openapi
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
