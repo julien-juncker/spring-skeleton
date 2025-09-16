@@ -4,26 +4,45 @@ info:
   description: Swagger Spring skeleton
   version: 1.0.0
 servers:
-  - url: 'https'
+  - url: 'https://julien-juncker.github.io/spring-skeleton/openapi/index.html'
 paths:
-  /api/v1/pets:
-    get:
-      summary: Get pets
-      description: Get pets from petstore
-      operationId: getPets
+  /api/v1/petstore/pet:
+    post:
+      summary: Add pet to store
+      description: Add pet to store
+      operationId: postPetToStore
       tags:
-        - Petstore
+        - petStore
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - pet
+                - petStore
+              properties:
+                pet:
+                  $ref: "#/components/schemas/OneOfPetDTO"
+                petStore:
+                  $ref: "#/components/schemas/PetStoreDTO"
       responses:
         '200':
-          description: A list of pets
+          description: A map of registered pet and store
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/PetDTO"
+                type: object
+                required:
+                  - pet
+                  - petStore
+                properties:
+                  pet:
+                    $ref: "#/components/schemas/OneOfPetDTO"
+                  petStore:
+                    $ref: "#/components/schemas/PetStoreDTO"
         default:
-          description: unexpected error
+          description: Unexpected error
           content:
             application/json:
               schema:
@@ -32,19 +51,153 @@ components:
   schemas:
     PetDTO:
       type: object
+      required:
+        - name
+        - owner
+        - petType
       properties:
+        tag:
+          type: string
+          format: uuid
+          description: tag id of the pet
+          example: 7261bebb-5616-443a-8406-342e61c201ab
         name:
           type: string
-          description: Name of pet
-          example: Helios
-        type:
+          minLength: 3
+          maxLength: 50
+          description: name of the pet
+          example: helios
+        owner:
+          $ref: "#/components/schemas/OwnerDTO"
+        petType:
           type: string
-          description: Type of pet
-          example: Cat
-        age:
+          description: type of pet (DOG, CAT ...)
+          example: DOG
+
+    OwnerDTO:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - address
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: tag id of the pet
+          example: 7261bebb-5616-443a-8406-342e61c201ab
+        firstName:
+          type: string
+          minLength: 3
+          maxLength: 50
+          description: pet owner first name
+          example: John
+        lastName:
+          type: string
+          minLength: 3
+          maxLength: 50
+          description: pet owner last name
+          example: Doe
+        address:
+          $ref: "#/components/schemas/AddressDTO"
+
+    AddressDTO:
+      type: object
+      required:
+        - number
+        - street
+        - zip
+      properties:
+        number:
           type: number
-          description: Age of pet
-          example: 3
+          minimum: 1
+          maximum: 1000
+          description: house number
+          example: 5
+        street:
+          type: string
+          minLength: 3
+          maxLength: 256
+          description: house street
+          example: Leicester square
+        city:
+          type: string
+          minLength: 3
+          maxLength: 50
+          description: house city
+          example: London
+        state:
+          type: string
+          minLength: 3
+          maxLength: 50
+          description: house state
+          example: Nord
+        zip:
+          type: string
+          minLength: 3
+          maxLength: 50
+          description: house city zip code
+          example: EC1A 1AE
+
+    DogDTO:
+      allOf:
+        - $ref: "#/components/schemas/PetDTO"
+        - type: object
+          required:
+            - breed
+          properties:
+            breed:
+              type: string
+              enum:
+                - BULLDOG
+                - LABRADOR
+                - GOLDEN_RETRIEVER
+                - BEAGLE
+              description: Breed for dog
+              example: BULLDOG
+    CatDTO:
+      allOf:
+        - $ref: "#/components/schemas/PetDTO"
+        - type: object
+          required:
+            - breed
+          properties:
+            breed:
+              type: string
+              enum:
+                - BENGAL
+                - PERSIAN
+                - SIAMESE
+                - BRITISH_SHORTHAIR
+              description: Breed for cat
+              example: BENGAL
+
+    OneOfPetDTO:
+      oneOf:
+        - $ref: "#/components/schemas/DogDTO"
+        - $ref: "#/components/schemas/CatDTO"
+      discriminator:
+        propertyName: petType
+        mapping:
+          'CAT': CatDTO
+          'DOG': DogDTO
+
+    PetStoreDTO:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: id of the store
+          example: 7261bebb-5616-443a-8406-342e61c201ab
+        name:
+          type: string
+          minLength: 3
+          maxLength: 128
+          description: name of the store
+          example: Pet store london
     ErrorDTO:
       type: object
       required:

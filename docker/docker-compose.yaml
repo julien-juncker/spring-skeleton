@@ -1,12 +1,12 @@
 version: '3.5'
 
 services:
-  postgres:
-    container_name: postgres_petstore
+  postgres-pet:
+    container_name: postgres_pet
     image: postgres:16
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_USER: ${POSTGRES_PET_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PET_PASSWORD:-postgres}
       PGDATA: /data/postgres
     ports:
       - "15435:5432"
@@ -14,7 +14,24 @@ services:
       - postgres
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}" ]
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_PET_USER:-postgres}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  postgres-petstore:
+    container_name: postgres_petstore
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${POSTGRES_PETSTORE_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PETSTORE_PASSWORD:-postgres}
+      PGDATA: /data/postgres
+    ports:
+      - "15436:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_PETSTORE_USER:-postgres}" ]
       interval: 10s
       timeout: 5s
       retries: 5

@@ -1,20 +1,25 @@
 package com.spring.skeleton.domain.petstore;
 
-import com.spring.skeleton.domain.petstore.object.Pet;
-import com.spring.skeleton.domain.petstore.port.PetstorePort;
-import org.springframework.stereotype.Service;
+import com.spring.skeleton.domain.petstore.entity.Pet;
+import com.spring.skeleton.domain.petstore.entity.PetStore;
+import com.spring.skeleton.domain.petstore.port.PetPort;
+import com.spring.skeleton.domain.petstore.port.PetStorePort;
 
-import java.util.List;
+import java.util.AbstractMap;
 
-@Service
 public class PetStoreService {
-    private final PetstorePort petstorePort;
+    final PetStorePort petStorePort;
+    final PetPort petPort;
 
-    public PetStoreService(final PetstorePort petstorePort) {
-        this.petstorePort = petstorePort;
+    public PetStoreService(final PetStorePort petStorePort, final PetPort petPort) {
+        this.petStorePort = petStorePort;
+        this.petPort = petPort;
     }
 
-    public List<Pet> getPets() {
-        return petstorePort.getAllPets();
+    public AbstractMap.SimpleEntry<Pet, PetStore> addPetToStore(final Pet pet, final PetStore petStore) {
+        final var persistedPetStore = petStorePort.getPetStoreByName(petStore.name())
+                .orElse(petStorePort.createStore(petStore));
+        final var persistedPet = petPort.registerPet(pet);
+        return new AbstractMap.SimpleEntry<>(persistedPet, persistedPetStore);
     }
 }

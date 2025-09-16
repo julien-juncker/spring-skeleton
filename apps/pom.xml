@@ -26,32 +26,36 @@
         <dependency>
             <groupId>com.spring.skeleton</groupId>
             <artifactId>domain</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
+        </dependency>
+
+        <!-- adapter dependencies (to wire adapter with port) -->
+        <dependency>
+            <groupId>com.spring.skeleton</groupId>
+            <artifactId>pet-infrastructure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.spring.skeleton</groupId>
+            <artifactId>petstore-infrastructure</artifactId>
         </dependency>
 
         <!-- Mapper management -->
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
-            <version>${mapstruct.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
-            <version>${mapstruct.version}</version>
         </dependency>
 
         <!-- OpenApi controller generation -->
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>${jackson-databind-nullable.version}</version>
         </dependency>
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
-            <version>${jakarta.validation-api.version}</version>
         </dependency>
 
         <!-- Database management -->
@@ -62,20 +66,17 @@
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-database-postgresql</artifactId>
-            <scope>runtime</scope>
+            <artifactId>flyway-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
+            <artifactId>flyway-database-postgresql</artifactId>
         </dependency>
 
         <!-- Karate for integration test -->
         <dependency>
             <groupId>com.intuit.karate</groupId>
             <artifactId>karate-junit5</artifactId>
-            <version>${karate-junit5.version}</version>
-            <scope>test</scope>
         </dependency>
 
         <!-- Test containers dependencies -->
@@ -94,6 +95,27 @@
             <artifactId>postgresql</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>mongodb</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- For test containers dependencies - init container and service connection -->
+        <dependency>
+            <groupId>com.spring.skeleton</groupId>
+            <artifactId>pet-infrastructure</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.spring.skeleton</groupId>
+            <artifactId>petstore-infrastructure</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -108,14 +130,13 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <templateDirectory>src/main/resources/templates
-                            </templateDirectory>
+                            <templateDirectory>src/main/resources/templates</templateDirectory>
                             <inputSpec>${project.parent.basedir}/docapi/content/openapi.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <skipOverwrite>true</skipOverwrite>
-                            <apiPackage>com.spring.skeleton.generated.api</apiPackage>
-                            <modelPackage>com.spring.skeleton.generated.models</modelPackage>
-                            <invokerPackage>com.spring.skeleton.generated</invokerPackage>
+                            <apiPackage>${project.groupId}.generated.api</apiPackage>
+                            <modelPackage>${project.groupId}.generated.models</modelPackage>
+                            <invokerPackage>${project.groupId}.generated</invokerPackage>
                             <!-- See https://github.com/OpenAPITools/openapi-generator/issues/12453 -->
                             <typeMappings>workaround-generator=org.springframework.core.io.Resource</typeMappings>
                             <configOptions>
@@ -132,7 +153,10 @@
                                 <documentationProvider>source</documentationProvider>
                                 <generateSupportingFiles>false</generateSupportingFiles>
                                 <implicitHeadersRegex>x-correlation-id</implicitHeadersRegex>
-                            </configOptions>
+                                <additionalModelTypeAnnotations>
+                                    @com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+                                </additionalModelTypeAnnotations>
+                        </configOptions>
                         </configuration>
                     </execution>
                 </executions>

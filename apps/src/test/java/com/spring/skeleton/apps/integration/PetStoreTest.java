@@ -3,10 +3,10 @@ package com.spring.skeleton.apps.integration;
 import com.intuit.karate.junit5.Karate;
 import com.spring.skeleton.apps.configuration.ApplicationStub;
 
-class PetStoreTest extends ApplicationStub {
+public class PetStoreTest extends ApplicationStub {
 
     @Karate.Test
-    Karate testGetPets() {
+    Karate testPetStore() {
         return Karate.run("classpath:scenarii/petstore/petstore.feature");
     }
 }
