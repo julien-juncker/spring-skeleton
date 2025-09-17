@@ -5,4 +5,9 @@ author = "julien-juncker"
 weight = 1
 +++
 
-{{< openapi src="./openapi.yaml" >}}
+{{< ifenv env="development" >}}
+    {{< openapi src="/openapi.yaml" >}}
+{{< /ifenv >}}
+{{< ifenv env="production" >}}
+    {{< openapi src="./openapi.yaml" >}}
+{{< /ifenv >}}

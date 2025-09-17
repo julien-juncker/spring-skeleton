@@ -43,7 +43,7 @@ jobs:
           HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
           HUGO_ENVIRONMENT: production
         run: |
-          hugo \
+          HUGO_ENV=production hugo \
             --gc \
             --minify \
             --source ./docapi \
@@ -52,7 +52,6 @@ jobs:
       - name: copy openapi file
         run: |
           cp ./docapi/public/openapi.yaml ./docapi/public/openapi/
-          ls ./docapi/public/openapi
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

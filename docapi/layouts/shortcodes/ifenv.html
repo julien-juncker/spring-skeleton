@@ -1,0 +1,4 @@
+{{- $env := .Get "env" -}}
+{{- if eq hugo.Environment $env -}}
+    {{ .Inner }}
+{{- end -}}
